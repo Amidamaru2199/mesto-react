@@ -1,11 +1,10 @@
 import React from "react"
 
 
-function Card({card, onCardC}) {
+function Card({card, onCardClick}) {
 
     function handleClick() {
-        onCardC(card)
-        console.log(card)
+        onCardClick(card)
     };
 
     return (
