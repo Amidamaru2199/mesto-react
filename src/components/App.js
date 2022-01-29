@@ -3,46 +3,40 @@ import '../index.css';
 import Footer from './Footer';
 import Header from './Header';
 import Main from './Main';
-import react from 'react';
+import React from 'react';
 import { useState } from 'react';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
 
-  const [profilePopup, setProfilePopup] = useState(true);
-  const [avatarPopup, setAvatarPopup] = useState(true);
-  const [addPopup, setAddPopup] = useState(true);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({})
+
+  function handleCardClick(card) {
+    setSelectedCard(card)
+    //console.log(card)
+  };
 
   function handleEditProfileClick() {
-    setProfilePopup(true);
-    
-    if (profilePopup) {
-      document.querySelector('.popup_type_edit').classList.add('popup_is-opened')
-    } else {
-      document.querySelector('.popup_type_edit').classList.remove('popup_is-opened')
-    }
-      
-  }
+    setIsEditProfilePopupOpen(true);    
+  };
 
   function handleEditAvatarClick() {
-    setAvatarPopup(true);
-    
-    if (avatarPopup) {
-      document.querySelector('.popup_type_avatar').classList.add('popup_is-opened')
-    } else {
-      document.querySelector('.popup_type_avatar').classList.remove('popup_is-opened')
-    }
-      
-  }
+    setIsEditAvatarPopupOpen(true);
+  };
 
   function handleAddPlaceClick() {
-    setAddPopup(true);
-    
-    if (avatarPopup) {
-      document.querySelector('.popup_type_card').classList.add('popup_is-opened')
-    } else {
-      document.querySelector('.popup_type_card').classList.remove('popup_is-opened')
-    }
-      
+    setIsAddPlacePopupOpen(true);
+  };
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setSelectedCard({});
   }
 
   return (
@@ -54,17 +48,16 @@ function App() {
 
           <Main
             onEditProfile={handleEditProfileClick}
-            onAvatarProfile={handleEditAvatarClick}
-            onAddProfile={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
           />
 
           <Footer />
               
-          <div className="popup popup_type_edit">
-            <div className="popup__container">
-              <h2 className="popup__title">Редактировать профиль</h2>
-              <form name="edit-form" className="popup__form" noValidate>
-                <input
+          <PopupWithForm name={'edit'} title={'Редактировать профиль'} isOpened={isEditProfilePopupOpen} onClose={closeAllPopups}>
+            <>
+            <input
                  placeholder="Имя"
                  name="name"
                  type="text"
@@ -91,16 +84,12 @@ function App() {
                  />
                 <span className="popup__error profession-field-error"></span>
                 <button className="popup__button" type="submit">Сохранить</button>
-              </form>
-              <button type="button" className="popup__close-button"></button>
-            </div>
-          </div>
-                
-          <div className="popup popup_type_card">
-            <div className="popup__container">
-              <h2 className="popup__title">Новое место</h2>
-              <form name="add-form" className="popup__form" noValidate>
-                <input
+            </>
+          </ PopupWithForm>
+
+          <PopupWithForm name={'card'} title={'Новое место'} isOpened={isAddPlacePopupOpen} onClose={closeAllPopups}>
+            <>
+            <input
                  placeholder="Название"
                  name="name"
                  type="text"
@@ -125,26 +114,19 @@ function App() {
                  />
                 <span className="popup__error link-field-error"></span>
                 <button className="popup__button" type="submit">Сохранить</button>
-              </form>
-              <button type="button" className="popup__close-button"></button>
-            </div>
-          </div>
+            </>
+          </ PopupWithForm>
+              
+          <PopupWithForm name={'confirm'} title={'Вы уверены?'}>
+            <>
+            <button className="popup__button" type="submit">Да</button>
+            </>
+          </ PopupWithForm>      
+          
 
-          <div className="popup popup_type_confirm">
-            <div className="popup__container">
-              <h2 className="popup__title">Вы уверены?</h2>
-              <form name="confirm-form" className="popup__form" noValidate>
-                <button className="popup__button" type="submit">Да</button>
-              </form>
-              <button type="button" className="popup__close-button"></button>
-            </div>
-          </div>
-
-          <div className="popup popup_type_avatar">
-            <div className="popup__container">
-              <h2 className="popup__title">Обновить аватар</h2>
-              <form name="avatar-form" className="popup__form" noValidate>
-                <input
+          <PopupWithForm name={'avatar'} title={'Обновить аватар'} isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+            <>
+            <input
                  placeholder="Новый аватар"
                  name="image"
                  type="url"
@@ -156,32 +138,11 @@ function App() {
                  />
                 <span className="popup__error avatar-field-error"></span>
                 <button className="popup__button popup__button_avatar" type="submit">Сохранить</button>
-              </form>
-              <button type="button" className="popup__close-button"></button>
-            </div>
-          </div>
+            </>
+          </ PopupWithForm>
 
-          <div className="popup popup-image">
-            <div className="popup-image__containers">
-              <img className="popup-image__img" />
-              <h3 className="popup-image__text"></h3>
-              <button type="button" className="popup__close-button"></button>
-            </div>
-          </div>
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-          <template className="item_template">
-            <li className="element elements__element">
-              <button className="element__delete-button"></button>
-              <img className="element__image" />
-              <div className="element__text-info">
-                <h2 className="element__text"></h2>
-                <div className="element__container">
-                  <button type="button" className="element__vector"></button>
-                  <p className="element__likes"></p>
-                </div>
-              </div>
-            </li>
-          </template>
         </div>
       </div>
     </div>
