@@ -73,6 +73,22 @@ class Api {
         .then(res => this._getResponseData(res));
       }
 
+      /*cardVisibilityStatus(cardId, isOwn) {
+        return fetch(`${this._baseUrl}/cards/${cardId}`, {
+          method: `${isOwn ? 'DELETE' : ""}`,
+          headers: this._headers,
+        })
+        .then(res => this._getResponseData(res));
+      }*/
+
+      changeLikeCardStatus(cardId, isLiked) {
+        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+          method: `${isLiked ? 'PUT' : 'DELETE'}`,
+          headers: this._headers,
+        })
+        .then(res => this._getResponseData(res));
+      }
+
       editAvatar(avatar) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
           method: 'PATCH',

@@ -35,6 +35,8 @@
 @import url(./blocks/element/__vector/element__vector.css);
 @import url(./blocks/element/__vector/_active/element__vector_active.css);
 @import url(./blocks/element/__delete-button/element__delete-button.css);
+@import url(./blocks/element/__delete-button/_hidden/element__delete-buttun_hidden.css);
+@import url(./blocks/element/__delete-button/_visible/element__delete-button_visible.css);
 
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__copyrate/footer__copyrate.css);
