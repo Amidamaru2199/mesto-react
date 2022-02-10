@@ -39,7 +39,7 @@ function App() {
       setCards(cardData.map((item => adapter(item))))
     })
     .catch((err) => console.log(err))
-  }, []);
+  }, [cards]);
 
   function adapter(serverCardData) {
     return {
@@ -100,27 +100,27 @@ function App() {
     api.editProfile(profileData)
     .then(profileData => {
       setCurrentUser(profileData)
+      closeAllPopups()
     })
     .catch((err) => console.log(err))
-    closeAllPopups()
   };
 
   function handleUpdateAvatar(Avatar) {
     api.editAvatar(Avatar)
     .then(profileAvatar => {
       setCurrentUser(profileAvatar)
+      closeAllPopups()
     })
     .catch((err) => console.log(err))
-    closeAllPopups()
   };
 
   function handleAddPlaceSubmit(cardData) {
     api.createCard(cardData)
     .then((newCard) => {
       setCards([newCard, ...cards])
+      closeAllPopups()
     })
     .catch((err) => console.log(err))
-    closeAllPopups()
   };
 
   return (

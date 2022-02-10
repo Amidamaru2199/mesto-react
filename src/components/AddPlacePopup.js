@@ -1,10 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext1 } from '../contexts/CurrentUserContext';
 
 function AddPlacePopup ({isOpened, onClose, onAddPlace}) {
-  const cards = useContext(CurrentUserContext1);
-
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
 
@@ -25,10 +23,10 @@ function handleChangeLink(e) {
     })
   };
 
-  useState(() => {
+  useEffect(() => {
     setName('');
-    setName('');
-  }, [cards])
+    setLink('');
+}, [isOpened]);
 
 
     
@@ -39,6 +37,7 @@ function handleChangeLink(e) {
         isOpened={isOpened} 
         onClose={onClose}
         onSubmit={handleSubmit}
+        btnText={'Сохранить'}
         >
             <>
             <input
@@ -67,7 +66,7 @@ function handleChangeLink(e) {
                  onChange={handleChangeLink}
                  />
                 <span className="popup__error link-field-error"></span>
-                <button className="popup__button" type="submit">Сохранить</button>
+                
             </>
           </ PopupWithForm>
     );   
