@@ -1,14 +1,45 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
+import { CurrentUserContext1 } from '../contexts/CurrentUserContext';
 
-function AddPlacePopup ({isOpened, onClose, onUpdatePlace}) {
+function AddPlacePopup ({isOpened, onClose, onAddPlace}) {
+  const cards = useContext(CurrentUserContext1);
+
+  const [name, setName] = useState('');
+  const [link, setLink] = useState('');
+
+  function handleChangeName(e) {
+    setName(e.target.value);
+};
+
+function handleChangeLink(e) {
+    setLink(e.target.value);
+};
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+
+    onAddPlace({
+      name,
+      link: link
+    })
+  };
+
+  useState(() => {
+    setName('');
+    setName('');
+  }, [cards])
+
+
     
     return (
         <PopupWithForm 
         name={'card'} 
         title={'Новое место'} 
         isOpened={isOpened} 
-        onClose={onClose}>
+        onClose={onClose}
+        onSubmit={handleSubmit}
+        >
             <>
             <input
                  placeholder="Название"
@@ -18,7 +49,8 @@ function AddPlacePopup ({isOpened, onClose, onUpdatePlace}) {
                  id="title-field"
                  autoComplete="off"
                  required
-                 /*value=""*/
+                 value={name}
+                 onChange={handleChangeName}
                  minLength="2"
                  maxLength="30"
                  />
@@ -31,7 +63,8 @@ function AddPlacePopup ({isOpened, onClose, onUpdatePlace}) {
                  id="link-field"
                  required
                  autoComplete="off"
-                 /*value=""*/
+                 value={link}
+                 onChange={handleChangeLink}
                  />
                 <span className="popup__error link-field-error"></span>
                 <button className="popup__button" type="submit">Сохранить</button>

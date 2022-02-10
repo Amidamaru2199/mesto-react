@@ -126,11 +126,12 @@ function App() {
   return (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext1.Provider value={cards}>
       <div className="page">
         <div className="container page__container">
           
           <Header />
-          <CurrentUserContext1.Provider value={cards}>
+          
           <Main
             onEditProfile={handleEditProfileClick}
             onEditAvatar={handleEditAvatarClick}
@@ -139,13 +140,12 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
           />
-          </CurrentUserContext1.Provider>
 
           <Footer />
               
           <EditProfilePopup isOpened={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
-          <AddPlacePopup isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdatePlace={handleUpdateUser} />
+          <AddPlacePopup isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
               
           <PopupWithForm name={'confirm'} title={'Вы уверены?'}>
             <>
@@ -159,7 +159,8 @@ function App() {
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
         </div>
-      </div>            
+      </div>
+      </CurrentUserContext1.Provider>          
       </CurrentUserContext.Provider>      
     </div>
             );
